@@ -21,4 +21,7 @@
            (parse-delimited-string "HEY,___,!@#!@" ","))))
   (testing "works for spaces"
     (is (= [["x" "x"]["x"]["x"]]
-           (parse-delimited-string "x x\nx\nx" "|")))))
+           (parse-delimited-string "x x\nx\nx" " "))))
+  (testing "handles empty columns"
+    (is (= [["" "what" "" "where" "when"]]
+           (parse-delimited-string "|what||where|when" "|")))))

@@ -22,4 +22,4 @@
    ;; Below we escape delimiter before converting to regex to avoid
    ;; conflicts with regex special chars
    #(str/split % (re-pattern (str "\\" delimiter)))
-   (str/split s #"\n")))
+   (str/split-lines s)))
