@@ -25,3 +25,8 @@
   (testing "handles empty columns"
     (is (= [["" "what" "" "where" "when"]]
            (parse-delimited-string "|what||where|when" "|")))))
+
+(deftest test-vecs->maps
+  (testing ""
+    (is (= [{:name "Joe" :age 26}{:name "Jane" :age 28}]
+           (vecs->maps [["Joe" 26]["Jane" 28]] [:name :age])))))
