@@ -9,7 +9,7 @@
             [parkers-api.lib.utils :as u]))
 
 (defn recs->resp
-  "Helper to prepare record collection to be sent as JSON"
+  "Prepare JSON response of record collection"
   [records]
   (response (map rec/printify records)))
 
