@@ -46,12 +46,12 @@
              {:last-name "D"}
              {:last-name "A"}])))))
 
-(deftest test-clojurify-record
+(deftest test-clojurify
   (testing "converts birth-date to joda time"
     (is (= {:birth-date (t/date-time 1990 4 30)}
-         (clojurify-record {:birth-date "4/30/1990"})))))
+         (clojurify {:birth-date "4/30/1990"})))))
 
-(deftest test-printify-record
+(deftest test-printify
   (testing "converts birth-date to M/D/YYYY string"
     (is (= {:birth-date "4/30/1990"}
-           (printify-record {:birth-date (t/date-time 1990 4 30)})))))
+           (printify {:birth-date (t/date-time 1990 4 30)})))))

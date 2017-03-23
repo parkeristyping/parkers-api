@@ -1,0 +1,4 @@
+POST http://127.0.0.1:3000/records
+Document-Type: application/json
+
+Lawrence,Parker,male,blue,4/30/1990

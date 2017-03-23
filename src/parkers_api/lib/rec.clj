@@ -4,6 +4,8 @@
             [clj-time.format :as tf]
             [parkers-api.lib.utils :as u]))
 
+(def records (atom []))
+
 (def desc
   "Descending comparator"
   #(compare %2 %1))
@@ -27,14 +29,14 @@
 (def time-format
   (tf/formatter "M/d/YYYY"))
 
-(defn clojurify-record
+(defn clojurify
   "Does needed type conversions when reading values from string"
   [record]
   (u/apply-conversion-map
    record
    {:birth-date #(tf/parse time-format %)}))
 
-(defn printify-record
+(defn printify
   "Converts record values to be more easily human-readable, where needed"
   [record]
   (u/apply-conversion-map
@@ -46,5 +48,13 @@
   [records]
   (pprint/print-table
    (map
-    printify-record
+    printify
     records)))
+
+(defn extract-records-from-string
+  [records-string]
+  (let [delimiter (u/determine-delimiter records-string)
+        records-vec (u/parse-delimited-string records-string delimiter)]
+    (-> records-vec
+        (u/vec->map [:last-name :first-name :gender :favorite-color :birth-date])
+        rec/clojurify)))
