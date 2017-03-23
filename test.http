@@ -1,4 +1,0 @@
-POST http://127.0.0.1:3000/records
-Document-Type: application/json
-
-Berth|Judy|female|green|1/2/1792
