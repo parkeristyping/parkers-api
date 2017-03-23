@@ -14,7 +14,7 @@
 
 (defroutes app-routes
   (POST "/records" {body :body}
-        (let [new-record (first (extract-records-from-string (slurp body)))]
+        (let [new-record (first (rec/extract-records-from-string (slurp body)))]
           (swap! records conj new-record)
           (response (rec/printify new-record))))
   (GET "/records/gender" [] (-> @records rec/sort-by-gender recs->resp))

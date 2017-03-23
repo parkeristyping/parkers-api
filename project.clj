@@ -9,6 +9,7 @@
                  [ring/ring-jetty-adapter "1.4.0"]
                  [ring/ring-defaults "0.2.1"]
                  [ring/ring-json "0.4.0"]
+                 [ring/ring-mock "0.3.0"]
                  [compojure "1.5.1"]
                  [org.clojure/tools.nrepl "0.2.12"]
                  [cider/cider-nrepl "0.14.0"]]

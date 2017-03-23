@@ -57,4 +57,4 @@
         records-vec (u/parse-delimited-string records-string delimiter)]
     (-> records-vec
         (u/vec->map [:last-name :first-name :gender :favorite-color :birth-date])
-        rec/clojurify)))
+        clojurify)))
