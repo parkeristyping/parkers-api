@@ -1,5 +1,9 @@
 (ns parkers-api.core
-  (:require [clojure.string :as str]))
+  (:require [clojure.string :as str]
+            [clojure.pprint :as pprint]
+            [clj-time.core :as t]
+            [clj-time.format :as tf])
+  (:gen-class))
 
 (defn determine-delimiter
   "Scans a string for a ' ' (space), '|' (pipe), or ',' (comma) and returns
@@ -86,3 +90,43 @@
   "Sorts records by last name in descending alphabetical order"
   [records]
   (sort-by :last-name desc records))
+
+(def time-format
+  (tf/formatter "M/d/YYYY"))
+
+(defn clojurify-record
+  "Does needed type conversions when reading values from string"
+  [record]
+  (apply-conversion-map
+   record
+   {:birth-date #(tf/parse time-format %)}))
+
+(defn printify-record
+  "Converts record values to be more easily human-readable, where needed"
+  [record]
+  (apply-conversion-map
+   record
+   {:birth-date #(tf/unparse time-format %)}))
+
+(defn print-records
+  "Prepares records for printing and prints them using `print-table`'"
+  [records]
+  (pprint/print-table
+   (map
+    printify-record
+    records)))
+
+(defn -main
+  [path]
+  (let [file-string (slurp path)
+        delimiter (determine-delimiter file-string)
+        records-vec (parse-delimited-string file-string delimiter)
+        records (map #(clojurify-record
+                       (vec->map % [:last-name :first-name :gender :favorite-color :birth-date]))
+                     records-vec)]
+    (println "OUTPUT 1: Sorted by gender (females before males) then by last name ascending.")
+    (print-records (sort-by-gender records))
+    (println "\n----\nOUTPUT 2: Sorted by birth date, ascending.")
+    (print-records (sort-by-birth-date records))
+    (println "\n----\nOUTPUT 3: Sorted by last name, descending.")
+    (print-records (sort-by-last-name records))))
