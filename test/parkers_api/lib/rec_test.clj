@@ -7,11 +7,7 @@
             [parkers-api.lib.rec :as rec]))
 
 (def test-input-comma
-"Lawrence,Parker,male,blue,4/30/1990
-Brooks,Sofie,female,green,1/10/1990
-Shields,Brooke,female,yellow,4/30/1994
-Hardesty,Ben,male,blue,4/3/2007
-Glass,Philip,male,blue,2/9/1987")
+  (slurp "resources/comma-example.csv"))
 
 (def test-input-pipe
   (str/replace test-input-comma #"," "|"))
@@ -20,20 +16,19 @@ Glass,Philip,male,blue,2/9/1987")
   (str/replace test-input-comma #"," " "))
 
 (def test-records
-  [{:last-name "Lawrence" :first-name "Parker" :gender "male"
-    :favorite-color "blue" :birth-date (t/date-time 1990 4 30)}
-   {:last-name "Brooks" :first-name "Sofie" :gender "female"
+  [{:last-name "Bryant" :first-name "Alan" :gender "male"
+    :favorite-color "blue" :birth-date (t/date-time 1580 12 9)}
+   {:last-name "Dearborn" :first-name "Carol" :gender "female"
     :favorite-color "green" :birth-date (t/date-time 1990 1 10)}
-   {:last-name "Shields" :first-name "Brooke" :gender "female"
-    :favorite-color "yellow" :birth-date (t/date-time 1994 4 30)}
-   {:last-name "Hardesty" :first-name "Ben" :gender "male"
-    :favorite-color "blue" :birth-date (t/date-time 2007 4 3)}
-   {:last-name "Glass" :first-name "Philip" :gender "male"
-    :favorite-color "blue" :birth-date (t/date-time 1987 2 9)}])
+   {:last-name "Fields" :first-name "Elle" :gender "female"
+    :favorite-color "yellow" :birth-date (t/date-time 1994 5 19)}
+   {:last-name "Hardesty" :first-name "Gareth" :gender "male"
+    :favorite-color "blue" :birth-date (t/date-time 1994 5 20)}
+   {:last-name "Junkins" :first-name "Igor" :gender "male"
+    :favorite-color "blue" :birth-date (t/date-time 1993 1 1)}])
 
 (deftest test-sort-by-gender
-  (testing "sorts by gender (female, then male) then
-            last name, ascending"
+  (testing "sorts by gender (female, then male) then last name, ascending"
     (is (= [{:gender "female" :last-name "W"}
             {:gender "female" :last-name "Y"}
             {:gender "male" :last-name "V"}
@@ -44,7 +39,9 @@ Glass,Philip,male,blue,2/9/1987")
              {:gender "female" :last-name "Y"}
              {:gender "male" :last-name "X"}
              {:gender "female" :last-name "W"}
-             {:gender "male" :last-name "V"}])))))
+             {:gender "male" :last-name "V"}])))
+    (is (= ["Dearborn" "Fields" "Bryant" "Hardesty" "Junkins"]
+           (map :last-name (sort-by-gender test-records))))))
 
 (deftest test-sort-by-birth-date
   (testing "sorts by birth date, ascending"
@@ -60,7 +57,9 @@ Glass,Philip,male,blue,2/9/1987")
               [{:birth-date two}
                {:birth-date one}
                {:birth-date four}
-               {:birth-date three}]))))))
+               {:birth-date three}]))))
+    (is (= ["Bryant" "Dearborn" "Junkins" "Fields" "Hardesty"]
+           (map :last-name (sort-by-birth-date test-records))))))
 
 (deftest test-sort-by-last-name
   (testing "sorts by last name, descending"
@@ -72,7 +71,9 @@ Glass,Philip,male,blue,2/9/1987")
             [{:last-name "C"}
              {:last-name "B"}
              {:last-name "D"}
-             {:last-name "A"}])))))
+             {:last-name "A"}])))
+    (is (= ["Junkins" "Hardesty" "Fields" "Dearborn" "Bryant"]
+           (map :last-name (sort-by-last-name test-records))))))
 
 (deftest test-clojurify
   (testing "converts birth-date to joda time"

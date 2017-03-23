@@ -13,6 +13,7 @@
                  [compojure "1.5.1"]
                  [org.clojure/tools.nrepl "0.2.12"]
                  [cider/cider-nrepl "0.14.0"]]
+  :resource-paths ["resources"]
   :main parkers-api.core
   :plugins [[lein-ring "0.10.0"]]
   :ring {:handler parkers-api.server/app})
