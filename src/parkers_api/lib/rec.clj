@@ -4,8 +4,6 @@
             [clj-time.format :as tf]
             [parkers-api.lib.utils :as u]))
 
-(def records (atom []))
-
 (def desc
   "Descending comparator"
   #(compare %2 %1))

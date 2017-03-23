@@ -4,7 +4,8 @@
             [ring.middleware.defaults :refer :all]
             [ring.middleware.json :refer [wrap-json-response]]
             [ring.util.response :refer [response]]
-            [parkers-api.lib.rec :as rec :refer [records]]
+            [parkers-api.data :refer [records]]
+            [parkers-api.lib.rec :as rec]
             [parkers-api.lib.utils :as u]))
 
 (defn recs->resp
